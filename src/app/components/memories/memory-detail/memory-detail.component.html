@@ -1,0 +1,86 @@
+<div class="memory-detail-container" *ngIf="memory">
+  <div class="header">
+    <button class="btn btn-secondary back-btn" (click)="goBack()">← Volver</button>
+    <h2>{{ memory.title }}</h2>
+    <span class="status" [class.confirmed]="memory.status === 'Confirmado'" [class.suspected]="memory.status === 'Sospecha'">
+      {{ memory.status }}
+    </span>
+  </div>
+
+  <div class="memory-content">
+    <div class="main-info">
+      <div class="description-section">
+        <h3>Descripción</h3>
+        <p>{{ memory.description }}</p>
+      </div>
+
+      <div class="dates-section">
+        <div class="date-item">
+          <strong>Fecha del recuerdo:</strong>
+          <span>{{ memory.occurredAt | date:'mediumDate' }}</span>
+        </div>
+        <div class="date-item">
+          <strong>Creado el:</strong>
+          <span>{{ memory.createdAt | date:'mediumDate' }}</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="associations-section">
+      <h3>Lugares Asociados</h3>
+      <div class="associations-list" *ngIf="places.length > 0">
+        <div class="association-item" *ngFor="let place of places">
+          <span>{{ place.name }}</span>
+          <small>{{ place.address }}</small>
+        </div>
+      </div>
+      <p *ngIf="places.length === 0">No hay lugares asociados</p>
+
+      <h3>Objetos Asociados</h3>
+      <div class="associations-list" *ngIf="objects.length > 0">
+        <div class="association-item" *ngFor="let obj of objects">
+          <span>{{ obj.name }}</span>
+          <small>{{ obj.description }}</small>
+        </div>
+      </div>
+      <p *ngIf="objects.length === 0">No hay objetos asociados</p>
+
+      <h3>Notas Asociadas</h3>
+      <div class="associations-list" *ngIf="notes.length > 0">
+        <div class="association-item" *ngFor="let note of notes">
+          <span>{{ note.title }}</span>
+          <small>{{ note.content }}</small>
+        </div>
+      </div>
+      <p *ngIf="notes.length === 0">No hay notas asociadas</p>
+
+      <h3>Personas Asociadas</h3>
+      <div class="associations-list" *ngIf="people.length > 0">
+        <div class="association-item" *ngFor="let person of people">
+          <span>{{ person.firstName }} {{ person.lastName }}</span>
+          <small>{{ person.description }}</small>
+        </div>
+      </div>
+      <p *ngIf="people.length === 0">No hay personas asociadas</p>
+    </div>
+  </div>
+
+  <div class="actions-section">
+    <button class="btn btn-primary" (click)="editMemory()">Editar Recuerdo</button>
+    <button class="btn btn-danger" (click)="deleteMemory()">Eliminar Recuerdo</button>
+    <button
+      class="btn btn-success"
+      (click)="confirmMemory()"
+      *ngIf="memory.status === 'Sospecha'">
+      Confirmar Recuerdo
+    </button>
+  </div>
+
+  <div *ngIf="error" class="error-message">
+    {{ error }}
+  </div>
+</div>
+
+<div *ngIf="loading" class="loading">
+  Cargando detalles del recuerdo...
+</div>

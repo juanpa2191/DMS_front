@@ -1,0 +1,35 @@
+<div class="note-list-container">
+  <div class="header">
+    <h2>Mis Notas</h2>
+    <button class="btn btn-primary" (click)="createNewNote()">Crear Nueva Nota</button>
+  </div>
+
+  <div *ngIf="loading" class="loading">
+    Cargando notas...
+  </div>
+
+  <div *ngIf="error" class="error-message">
+    {{ error }}
+  </div>
+
+  <div *ngIf="!loading && notes.length === 0" class="no-notes">
+    <p>No tienes notas aún. ¡Crea tu primera nota!</p>
+  </div>
+
+  <div class="notes-grid" *ngIf="!loading && notes.length > 0">
+    <div class="note-card" *ngFor="let note of notes">
+      <div class="note-header">
+        <h3>{{ note.title }}</h3>
+      </div>
+
+      <div class="note-content">
+        <p class="content-preview">{{ note.content | slice:0:150 }}...</p>
+      </div>
+
+      <div class="note-actions">
+        <button class="btn btn-secondary" (click)="editNote(note.id)">Editar</button>
+        <button class="btn btn-danger" (click)="deleteNote(note.id)">Eliminar</button>
+      </div>
+    </div>
+  </div>
+</div>

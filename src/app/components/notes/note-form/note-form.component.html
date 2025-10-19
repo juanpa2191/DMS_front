@@ -1,0 +1,52 @@
+<div class="note-form-container">
+  <h2>{{ isEditMode ? 'Editar Nota' : 'Crear Nueva Nota' }}</h2>
+
+  <div *ngIf="success" class="success-message">
+    ¡Nota {{ isEditMode ? 'actualizada' : 'creada' }} exitosamente! Redirigiendo...
+  </div>
+
+  <form [formGroup]="noteForm" (ngSubmit)="onSubmit()" class="note-form" *ngIf="!success">
+    <div class="form-group">
+      <label for="title">Título de la Nota:</label>
+      <input
+        type="text"
+        id="title"
+        formControlName="title"
+        placeholder="Ej: Recordatorio importante, Pensamientos sobre..."
+        class="form-control"
+        [class.error]="noteForm.get('title')?.invalid && noteForm.get('title')?.touched">
+      <div class="error-message" *ngIf="noteForm.get('title')?.invalid && noteForm.get('title')?.touched">
+        El título es requerido
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="content">Contenido de la Nota:</label>
+      <textarea
+        id="content"
+        formControlName="content"
+        placeholder="Escribe aquí el contenido de tu nota..."
+        rows="8"
+        class="form-control"
+        [class.error]="noteForm.get('content')?.invalid && noteForm.get('content')?.touched">
+      </textarea>
+      <div class="error-message" *ngIf="noteForm.get('content')?.invalid && noteForm.get('content')?.touched">
+        El contenido es requerido
+      </div>
+    </div>
+
+    <div class="error-message" *ngIf="error">
+      {{ error }}
+    </div>
+
+    <div class="form-actions">
+      <button type="submit" [disabled]="loading || noteForm.invalid" class="btn btn-primary">
+        <span *ngIf="loading">{{ isEditMode ? 'Actualizando...' : 'Creando...' }}</span>
+        <span *ngIf="!loading">{{ isEditMode ? 'Actualizar Nota' : 'Crear Nota' }}</span>
+      </button>
+      <button type="button" (click)="cancel()" class="btn btn-secondary">
+        Cancelar
+      </button>
+    </div>
+  </form>
+</div>

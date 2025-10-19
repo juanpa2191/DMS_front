@@ -1,0 +1,23 @@
+<div class="search-bar-container">
+  <div class="search-input-group">
+    <input
+      type="text"
+      [(ngModel)]="searchTerm"
+      (keyup.enter)="onSearch()"
+      placeholder="Buscar recuerdos por palabras clave..."
+      class="search-input">
+    <button
+      type="button"
+      (click)="onSearch()"
+      class="btn btn-primary search-btn">
+      🔍 Buscar
+    </button>
+    <button
+      type="button"
+      (click)="onClear()"
+      class="btn btn-secondary clear-btn"
+      *ngIf="searchTerm">
+      ✕ Limpiar
+    </button>
+  </div>
+</div>

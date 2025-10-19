@@ -1,0 +1,65 @@
+<div class="memory-form-container">
+  <h2>{{ isEditMode ? 'Editar Recuerdo' : 'Crear Nuevo Recuerdo' }}</h2>
+
+  <div *ngIf="success" class="success-message">
+    ¡Recuerdo {{ isEditMode ? 'actualizado' : 'creado' }} exitosamente! Redirigiendo...
+  </div>
+
+  <form [formGroup]="memoryForm" (ngSubmit)="onSubmit()" class="memory-form" *ngIf="!success">
+    <div class="form-group">
+      <label for="title">Título del Recuerdo:</label>
+      <input
+        type="text"
+        id="title"
+        formControlName="title"
+        placeholder="Ingresa un título descriptivo"
+        class="form-control"
+        [class.error]="memoryForm.get('title')?.invalid && memoryForm.get('title')?.touched">
+      <div class="error-message" *ngIf="memoryForm.get('title')?.invalid && memoryForm.get('title')?.touched">
+        El título es requerido
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="description">Descripción:</label>
+      <textarea
+        id="description"
+        formControlName="description"
+        placeholder="Describe tu recuerdo en detalle"
+        rows="4"
+        class="form-control"
+        [class.error]="memoryForm.get('description')?.invalid && memoryForm.get('description')?.touched">
+      </textarea>
+      <div class="error-message" *ngIf="memoryForm.get('description')?.invalid && memoryForm.get('description')?.touched">
+        La descripción es requerida
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="occurredAt">Fecha en que ocurrió:</label>
+      <input
+        type="date"
+        id="occurredAt"
+        formControlName="occurredAt"
+        class="form-control"
+        [class.error]="memoryForm.get('occurredAt')?.invalid && memoryForm.get('occurredAt')?.touched">
+      <div class="error-message" *ngIf="memoryForm.get('occurredAt')?.invalid && memoryForm.get('occurredAt')?.touched">
+        La fecha es requerida
+      </div>
+    </div>
+
+    <div class="error-message" *ngIf="error">
+      {{ error }}
+    </div>
+
+    <div class="form-actions">
+      <button type="submit" [disabled]="loading || memoryForm.invalid" class="btn btn-primary">
+        <span *ngIf="loading">{{ isEditMode ? 'Actualizando...' : 'Creando...' }}</span>
+        <span *ngIf="!loading">{{ isEditMode ? 'Actualizar Recuerdo' : 'Crear Recuerdo' }}</span>
+      </button>
+      <button type="button" (click)="cancel()" class="btn btn-secondary">
+        Cancelar
+      </button>
+    </div>
+  </form>
+</div>

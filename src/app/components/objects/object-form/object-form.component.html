@@ -1,0 +1,52 @@
+<div class="object-form-container">
+  <h2>{{ isEditMode ? 'Editar Objeto' : 'Crear Nuevo Objeto' }}</h2>
+
+  <div *ngIf="success" class="success-message">
+    ¡Objeto {{ isEditMode ? 'actualizado' : 'creado' }} exitosamente! Redirigiendo...
+  </div>
+
+  <form [formGroup]="objectForm" (ngSubmit)="onSubmit()" class="object-form" *ngIf="!success">
+    <div class="form-group">
+      <label for="name">Nombre del Objeto:</label>
+      <input
+        type="text"
+        id="name"
+        formControlName="name"
+        placeholder="Ej: Foto familiar, Anillo de bodas"
+        class="form-control"
+        [class.error]="objectForm.get('name')?.invalid && objectForm.get('name')?.touched">
+      <div class="error-message" *ngIf="objectForm.get('name')?.invalid && objectForm.get('name')?.touched">
+        El nombre es requerido
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="description">Descripción:</label>
+      <textarea
+        id="description"
+        formControlName="description"
+        placeholder="Describe este objeto y su importancia"
+        rows="4"
+        class="form-control"
+        [class.error]="objectForm.get('description')?.invalid && objectForm.get('description')?.touched">
+      </textarea>
+      <div class="error-message" *ngIf="objectForm.get('description')?.invalid && objectForm.get('description')?.touched">
+        La descripción es requerida
+      </div>
+    </div>
+
+    <div class="error-message" *ngIf="error">
+      {{ error }}
+    </div>
+
+    <div class="form-actions">
+      <button type="submit" [disabled]="loading || objectForm.invalid" class="btn btn-primary">
+        <span *ngIf="loading">{{ isEditMode ? 'Actualizando...' : 'Creando...' }}</span>
+        <span *ngIf="!loading">{{ isEditMode ? 'Actualizar Objeto' : 'Crear Objeto' }}</span>
+      </button>
+      <button type="button" (click)="cancel()" class="btn btn-secondary">
+        Cancelar
+      </button>
+    </div>
+  </form>
+</div>

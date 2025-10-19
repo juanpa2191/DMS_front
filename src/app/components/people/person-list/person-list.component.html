@@ -1,0 +1,35 @@
+<div class="person-list-container">
+  <div class="header">
+    <h2>Mis Personas</h2>
+    <button class="btn btn-primary" (click)="createNewPerson()">Crear Nueva Persona</button>
+  </div>
+
+  <div *ngIf="loading" class="loading">
+    Cargando personas...
+  </div>
+
+  <div *ngIf="error" class="error-message">
+    {{ error }}
+  </div>
+
+  <div *ngIf="!loading && people.length === 0" class="no-people">
+    <p>No tienes personas aún. ¡Crea tu primera persona!</p>
+  </div>
+
+  <div class="people-grid" *ngIf="!loading && people.length > 0">
+    <div class="person-card" *ngFor="let person of people">
+      <div class="person-header">
+        <h3>{{ person.firstName }} {{ person.lastName }}</h3>
+      </div>
+
+      <div class="person-content">
+        <p class="description">{{ person.description }}</p>
+      </div>
+
+      <div class="person-actions">
+        <button class="btn btn-secondary" (click)="editPerson(person.id)">Editar</button>
+        <button class="btn btn-danger" (click)="deletePerson(person.id)">Eliminar</button>
+      </div>
+    </div>
+  </div>
+</div>

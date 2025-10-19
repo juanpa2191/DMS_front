@@ -1,0 +1,43 @@
+<div class="place-list-container">
+  <div class="header">
+    <h2>Mis Lugares</h2>
+    <button class="btn btn-primary" (click)="createNewPlace()">Crear Nuevo Lugar</button>
+  </div>
+
+  <div *ngIf="loading" class="loading">
+    Cargando lugares...
+  </div>
+
+  <div *ngIf="error" class="error-message">
+    {{ error }}
+  </div>
+
+  <div *ngIf="!loading && places.length === 0" class="no-places">
+    <p>No tienes lugares aún. ¡Crea tu primer lugar!</p>
+  </div>
+
+  <div class="places-grid" *ngIf="!loading && places.length > 0">
+    <div class="place-card" *ngFor="let place of places">
+      <div class="place-header">
+        <h3>{{ place.name }}</h3>
+      </div>
+
+      <div class="place-content">
+        <p class="description">{{ place.description }}</p>
+        <div class="place-address">
+          <strong>Dirección:</strong> {{ place.address }}
+        </div>
+        <div class="place-coordinates" *ngIf="place.latitude && place.longitude">
+          <small>
+            Lat: {{ place.latitude }}, Lng: {{ place.longitude }}
+          </small>
+        </div>
+      </div>
+
+      <div class="place-actions">
+        <button class="btn btn-secondary" (click)="editPlace(place.id)">Editar</button>
+        <button class="btn btn-danger" (click)="deletePlace(place.id)">Eliminar</button>
+      </div>
+    </div>
+  </div>
+</div>

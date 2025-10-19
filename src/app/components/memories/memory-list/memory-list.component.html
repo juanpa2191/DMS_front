@@ -1,0 +1,59 @@
+<div class="memory-list-container">
+  <div class="header">
+    <h2>Mis Recuerdos</h2>
+    <button class="btn btn-primary" (click)="createNewMemory()">Crear Nuevo Recuerdo</button>
+  </div>
+
+  <app-search-bar (search)="onSearch($event)"></app-search-bar>
+
+  <div *ngIf="loading" class="loading">
+    Cargando recuerdos...
+  </div>
+
+  <div *ngIf="error" class="error-message">
+    {{ error }}
+  </div>
+
+  <div *ngIf="!loading && filteredMemories.length === 0 && memories.length > 0" class="no-results">
+    <p>No se encontraron recuerdos que coincidan con tu búsqueda.</p>
+  </div>
+
+  <div *ngIf="!loading && memories.length === 0" class="no-memories">
+    <p>No tienes recuerdos aún. ¡Crea tu primer recuerdo!</p>
+  </div>
+
+  <div class="memories-grid" *ngIf="!loading && filteredMemories.length > 0">
+    <div class="memory-card" *ngFor="let memory of filteredMemories">
+      <div class="memory-header">
+        <h3>{{ memory.title }}</h3>
+        <span class="status" [class.confirmed]="memory.status === 'Confirmado'" [class.suspected]="memory.status === 'Sospecha'">
+          {{ memory.status }}
+        </span>
+      </div>
+
+      <div class="memory-content">
+        <p class="description">{{ memory.description }}</p>
+        <div class="memory-dates">
+          <small>
+            <strong>Ocurrió:</strong> {{ memory.occurredAt | date:'mediumDate' }}
+          </small>
+          <small>
+            <strong>Creado:</strong> {{ memory.createdAt | date:'mediumDate' }}
+          </small>
+        </div>
+      </div>
+
+      <div class="memory-actions">
+        <button class="btn btn-secondary" (click)="viewMemory(memory.id)">Ver Detalles</button>
+        <button class="btn btn-secondary" (click)="editMemory(memory.id)">Editar</button>
+        <button class="btn btn-danger" (click)="deleteMemory(memory.id)">Eliminar</button>
+        <button
+          class="btn btn-success"
+          (click)="confirmMemory(memory)"
+          *ngIf="memory.status === 'Sospecha'">
+          Confirmar
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

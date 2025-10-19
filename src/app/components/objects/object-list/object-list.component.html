@@ -1,0 +1,35 @@
+<div class="object-list-container">
+  <div class="header">
+    <h2>Mis Objetos</h2>
+    <button class="btn btn-primary" (click)="createNewObject()">Crear Nuevo Objeto</button>
+  </div>
+
+  <div *ngIf="loading" class="loading">
+    Cargando objetos...
+  </div>
+
+  <div *ngIf="error" class="error-message">
+    {{ error }}
+  </div>
+
+  <div *ngIf="!loading && objects.length === 0" class="no-objects">
+    <p>No tienes objetos aún. ¡Crea tu primer objeto!</p>
+  </div>
+
+  <div class="objects-grid" *ngIf="!loading && objects.length > 0">
+    <div class="object-card" *ngFor="let object of objects">
+      <div class="object-header">
+        <h3>{{ object.name }}</h3>
+      </div>
+
+      <div class="object-content">
+        <p class="description">{{ object.description }}</p>
+      </div>
+
+      <div class="object-actions">
+        <button class="btn btn-secondary" (click)="editObject(object.id)">Editar</button>
+        <button class="btn btn-danger" (click)="deleteObject(object.id)">Eliminar</button>
+      </div>
+    </div>
+  </div>
+</div>
